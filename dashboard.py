@@ -11,6 +11,7 @@ def load_data():
 
 df = load_data()
 
+# --- Weekly metrics ---
 st.subheader("This Week's Performance")
 week = df.tail(5)
 cols = st.columns(len(week))
@@ -21,11 +22,19 @@ for col, (date, row) in zip(cols, week.iterrows()):
         delta=f"{row['daily_return']:.2f}%"
     )
 
-st.subheader("Closing Price Over Time")
-st.line_chart(df["close"])
+st.divider()
 
-st.subheader("7-Day Moving Average")
-st.line_chart(df["moving_average_7"].dropna())
+# --- Charts side by side ---
+left, right = st.columns(2)
+with left:
+    st.subheader("Closing Price Over Time")
+    st.line_chart(df["close"])
+with right:
+    st.subheader("7-Day Moving Average")
+    st.line_chart(df["moving_average_7"].dropna())
 
+st.divider()
+
+# --- Data table ---
 st.subheader("Last 10 Rows")
-st.dataframe(df.tail(10))
+st.dataframe(df.tail(10), use_container_width=True)
