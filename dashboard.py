@@ -3,8 +3,9 @@ from src.extract import fetch_daily_stock_data
 from src.transform import transform_stock_data
 
 st.set_page_config(layout="wide")
-st.title("AMZN Stock Dashboard")
-st.caption("Owner: Houda Ben Sidi Ahmed")
+left, right = st.columns([3, 1])
+left.title("AMZN Stock Dashboard")
+right.markdown("<div style='text-align: right; padding-top: 20px;'>Owner: Houda Ben Sidi Ahmed</div>", unsafe_allow_html=True)
 
 @st.cache_data
 def load_data():
