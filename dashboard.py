@@ -2,11 +2,11 @@ import streamlit as st
 from src.extract import fetch_daily_stock_data
 from src.transform import transform_stock_data
 
-st.title("AAPL Stock Dashboard")
+st.title("AMZN Stock Dashboard")
 
 @st.cache_data
 def load_data():
-    df = fetch_daily_stock_data("AAPL")
+    df = fetch_daily_stock_data("AMZN")
     return transform_stock_data(df)
 
 df = load_data()
