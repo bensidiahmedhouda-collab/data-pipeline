@@ -4,6 +4,7 @@ from src.transform import transform_stock_data
 
 st.set_page_config(layout="wide")
 st.title("AMZN Stock Dashboard")
+st.caption("Owner: Houda Ben Sidi Ahmed")
 
 @st.cache_data
 def load_data():
