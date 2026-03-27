@@ -2,6 +2,7 @@ import streamlit as st
 from src.extract import fetch_daily_stock_data
 from src.transform import transform_stock_data
 
+st.set_page_config(layout="wide")
 st.title("AMZN Stock Dashboard")
 
 @st.cache_data
