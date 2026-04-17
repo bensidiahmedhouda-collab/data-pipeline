@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 import pandas as pd
 from dotenv import load_dotenv
@@ -6,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def fetch_daily_stock_data(symbol: str) -> pd.DataFrame:
+def fetch_daily_stock_data(symbol: str, retries: int = 3, backoff: int = 5) -> pd.DataFrame:
     api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
     url = "https://www.alphavantage.co/query"
     params = {
@@ -16,8 +17,14 @@ def fetch_daily_stock_data(symbol: str) -> pd.DataFrame:
         "apikey": api_key,
     }
 
-    response = requests.get(url, params=params)
-    response.raise_for_status()
+    for attempt in range(retries):
+        response = requests.get(url, params=params)
+        if response.status_code == 503:
+            if attempt < retries - 1:
+                time.sleep(backoff * (attempt + 1))
+                continue
+        response.raise_for_status()
+        break
     data = response.json()
 
     if "Time Series (Daily)" not in data:
